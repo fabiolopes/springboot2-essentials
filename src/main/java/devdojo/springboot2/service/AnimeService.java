@@ -9,7 +9,7 @@ import java.util.List;
 public class AnimeService {
 
     public List<Anime> listAll() {
-        return List.of(new Anime(1l, "DBZ"), new Anime(2l,"Berserk"));
+        return List.of(new Anime(1L, "DBZ"), new Anime(2L,"Berserk"));
     }
 
 }
