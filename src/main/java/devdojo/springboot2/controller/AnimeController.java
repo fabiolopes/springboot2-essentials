@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,8 +35,13 @@ public class AnimeController {
         return ResponseEntity.ok(animeService.findByIdOrThrowBadRequestExdception(id));
     }
 
+    @GetMapping(path = "/find")
+    public ResponseEntity<List<Anime>> findByName(@RequestParam String name) {
+        return ResponseEntity.ok(animeService.findByName(name));
+    }
+
     @PostMapping
-    public ResponseEntity<Anime> save(@RequestBody AnimePostRequestBody anime) {
+    public ResponseEntity<Anime> save(@RequestBody @Valid AnimePostRequestBody anime) {
         return new ResponseEntity<>(animeService.save(anime), HttpStatus.CREATED);
     }
 
