@@ -9,9 +9,8 @@ import devdojo.springboot2.requests.AnimePutRequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,7 +21,9 @@ public class AnimeService {
     private final AnimeRepository animeRepository;
 
     public Page<Anime> listAll(Pageable pageable) {
-        return animeRepository.findAll(pageable);
+
+        Page<Anime> all = animeRepository.findAll(pageable);
+        return all;
     }
 
     public List<Anime> listAllNonPageable() {
@@ -38,9 +39,9 @@ public class AnimeService {
                 .orElseThrow(() -> new BadRequestException("Anime not found"));
     }
 
+    @Transactional
     public Anime save(AnimePostRequestBody animePostRequestBody) {
-        Anime save = animeRepository.save(AnimeMapper.INSTANCE.toAnime(animePostRequestBody));
-        return save;
+        return animeRepository.save(AnimeMapper.INSTANCE.toAnime(animePostRequestBody));
     }
 
     public void delete(long id) {
