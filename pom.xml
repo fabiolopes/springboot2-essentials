@@ -17,6 +17,11 @@
         <java.version>11</java.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <springdoc-openapi-version>1.5.7</springdoc-openapi-version>
+        <jib-maven-plugin.version>3.0.0</jib-maven-plugin.version>
+        <docker-distroless-image>gcr.io/distroless/java:11</docker-distroless-image>
+        <docker.repo.url>registry.hub.docker.com/fabiobione</docker.repo.url>
+        <docker.repo.project>springboot2-essentials</docker.repo.project>
+        <docker.image.name>${docker.repo.url}/${docker.repo.project}</docker.image.name>
     </properties>
     <dependencies>
 
@@ -127,6 +132,25 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib-maven-plugin.version}</version>
+                <configuration>
+                    <from>
+                        <image>${docker-distroless-image}</image>
+                    </from>
+                    <to>
+                        <image>${docker.image.name}</image>
+                        <tags>
+                            <tag>${project.version}</tag>
+                        </tags>
+                    </to>
+                    <container>
+                        <mainClass>devdojo.springboot2.Springboot2EssentialsApplication</mainClass>
+                    </container>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
